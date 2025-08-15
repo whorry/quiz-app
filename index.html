@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>クイズアプリ</title>
+<style>
+  body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+  .question { font-size: 20px; margin-bottom: 20px; }
+  button { margin: 5px; padding: 10px 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+<h1>ミニクイズ</h1>
+<div id="quiz-container">
+  <div class="question" id="question"></div>
+  <div id="answers"></div>
+</div>
+<div id="result" style="font-size:18px; margin-top:20px;"></div>
+
+<script>
+const quiz = [
+  { q: "日本の首都はどこ？", a: ["東京", "大阪", "京都"], correct: "東京" },
+  { q: "3×4は？", a: ["7", "12", "15"], correct: "12" },
+  { q: "富士山の高さは約何m？", a: ["2776", "3376", "3776"], correct: "3776" }
+];
+
+let current = 0;
+let score = 0;
+
+function showQuestion() {
+  document.getElementById("question").textContent = quiz[current].q;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  quiz[current].a.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice;
+    btn.onclick = () => checkAnswer(choice);
+    answersDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(choice) {
+  if (choice === quiz[current].correct) {
+    score++;
+    alert("正解！");
+  } else {
+    alert("不正解…");
+  }
+  current++;
+  if (current < quiz.length) {
+    showQuestion();
+  } else {
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("result").textContent = 
+      `終了！あなたの得点は ${score} / ${quiz.length} です。`;
+  }
+}
+
+showQuestion();
+</script>
+</body>
+</html>
